@@ -5,6 +5,9 @@
 		"factoryName": {
 			"value": "mlopsadf1"
 		},
+		"AzureDataLakeStorage1_accountKey": {
+			"value": ""
+		},
 		"excelonoutput_accountKey": {
 			"value": ""
 		},
@@ -14,8 +17,17 @@
 		"exinput1_connectionString": {
 			"value": ""
 		},
+		"milwaukeetoolsdata_accountKey": {
+			"value": ""
+		},
+		"AzureDataLakeStorage1_properties_typeProperties_url": {
+			"value": "https://mlopssa.dfs.core.windows.net"
+		},
 		"excelonoutput_properties_typeProperties_url": {
 			"value": "https://mlopssa.dfs.core.windows.net"
+		},
+		"milwaukeetoolsdata_properties_typeProperties_url": {
+			"value": "https://milwaukeetoolsdata.dfs.core.windows.net"
 		},
 		"containerUri": {
 			"value": ""

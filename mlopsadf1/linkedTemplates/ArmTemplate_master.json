@@ -7,6 +7,10 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "mlopsadf1"
 		},
+		"AzureDataLakeStorage1_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'AzureDataLakeStorage1'"
+		},
 		"excelonoutput_accountKey": {
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'excelonoutput'"
@@ -19,9 +23,21 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'exinput1'"
 		},
+		"milwaukeetoolsdata_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'milwaukeetoolsdata'"
+		},
+		"AzureDataLakeStorage1_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://mlopssa.dfs.core.windows.net"
+		},
 		"excelonoutput_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://mlopssa.dfs.core.windows.net"
+		},
+		"milwaukeetoolsdata_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://milwaukeetoolsdata.dfs.core.windows.net"
 		},
 		"containerUri": {
 			"type": "string",
@@ -50,6 +66,9 @@
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
 					},
+					"AzureDataLakeStorage1_accountKey": {
+						"value": "[parameters('AzureDataLakeStorage1_accountKey')]"
+					},
 					"excelonoutput_accountKey": {
 						"value": "[parameters('excelonoutput_accountKey')]"
 					},
@@ -59,8 +78,17 @@
 					"exinput1_connectionString": {
 						"value": "[parameters('exinput1_connectionString')]"
 					},
+					"milwaukeetoolsdata_accountKey": {
+						"value": "[parameters('milwaukeetoolsdata_accountKey')]"
+					},
+					"AzureDataLakeStorage1_properties_typeProperties_url": {
+						"value": "[parameters('AzureDataLakeStorage1_properties_typeProperties_url')]"
+					},
 					"excelonoutput_properties_typeProperties_url": {
 						"value": "[parameters('excelonoutput_properties_typeProperties_url')]"
+					},
+					"milwaukeetoolsdata_properties_typeProperties_url": {
+						"value": "[parameters('milwaukeetoolsdata_properties_typeProperties_url')]"
 					}
 				}
 			},
