@@ -2,7 +2,7 @@
 
 ## Build pipeline to run Training cluster
 
-![alt text](https://github.com/balakreshnan/mlops/blob/master/images/mlopsflow.jpg "mlops deploy")
+![alt text](https://github.com/balakreshnan/mlops/blob/master/images/mlopsflow1.jpg "mlops deploy")
 
 ## Code to run
 
