@@ -168,3 +168,86 @@ run.wait_for_completion(show_output=True)
 ```
 
 When asked you might have to log in with device login.
+
+Batch inferecing
+
+```
+from azureml.core import Environment
+from azureml.core.conda_dependencies import CondaDependencies
+from azureml.core.runconfig import DEFAULT_CPU_IMAGE
+
+cd = CondaDependencies.create(pip_packages=["scikit-learn", "azureml-defaults"])
+env = Environment(name="parallelenv")
+env.python.conda_dependencies = cd
+env.docker.base_image = DEFAULT_CPU_IMAGE
+```
+
+Setup Parallel Run
+
+```
+from azureml.contrib.pipeline.steps import ParallelRunConfig
+
+parallel_run_config = ParallelRunConfig(
+    environment=env,
+    entry_script="train.py",
+    source_directory=".",
+    output_action="append_row",
+    mini_batch_size="20",
+    error_threshold=1,
+    compute_target=cpu_cluster,
+    process_count_per_node=2,
+    node_count=1
+)
+```
+
+Parallel Step
+
+```
+from azureml.contrib.pipeline.steps import ParallelRunStep
+
+batch_score_step = ParallelRunStep(
+    name="parallel-step-test",
+    inputs=[data_complete],
+    output=output_dir,
+    models=[model],
+    arguments=["--model_name", "inception",
+               "--labels_name", "label_ds"],
+    parallel_run_config=parallel_run_config,
+    allow_reuse=False
+)
+``
+
+```
+from azureml.core import Experiment
+from azureml.pipeline.core import Pipeline
+
+pipeline = Pipeline(workspace=ws, steps=[batch_score_step])
+pipeline_run = Experiment(ws, 'batch_scoring_ms').submit(pipeline)
+pipeline_run.wait_for_completion(show_output=True)
+```
+
+```
+import pandas as pd
+
+batch_run = next(pipeline_run.get_children())
+batch_output = batch_run.get_output_data("scores")
+batch_output.download(local_path="inception_results")
+
+for root, dirs, files in os.walk("inception_results"):
+    for file in files:
+        if file.endswith("parallel_run_step.txt"):
+            result_file = os.path.join(root, file)
+
+df = pd.read_csv(result_file, delimiter=":", header=None)
+df.columns = ["Filename", "Prediction"]
+print("Prediction has ", df.shape[0], " rows")
+df.head(10)
+```
+
+```
+published_pipeline = pipeline_run.publish_pipeline(
+    name="Inception_v3_scoring", description="Batch scoring using Inception v3 model", version="1.0")
+
+published_pipeline
+```
+
