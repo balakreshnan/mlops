@@ -36,6 +36,16 @@ os.makedirs(project_folder, exist_ok=True)
 experiment = Experiment(workspace=ws, name='my-model')
 ```
 
+```
+output_folder = './outputs'
+os.makedirs(output_folder, exist_ok=True)
+```
+
+```
+result_folder = './results'
+os.makedirs(result_folder, exist_ok=True)
+```
+
 Load data set from data set
 
 ```
@@ -139,7 +149,10 @@ rfc = RandomForestClassifier(n_estimators=20,
 
 rfc.fit(X, y)
 
-joblib.dump(rfc, "model.joblib")
+#joblib.dump(rfc, "model.joblib")
+os.makedirs('./outputs', exist_ok=True)
+# note file saved in the outputs folder is automatically uploaded into experiment record
+joblib.dump(value=rfc, filename='./outputs/sklearn_test_model.pkl')
 ```
 
 Now time to set the pipeline parameters.
@@ -167,9 +180,124 @@ run = experiment.submit(estimator)
 run.wait_for_completion(show_output=True)
 ```
 
+```
+print(run.get_metrics())
+```
+
+```
+from azureml.widgets import RunDetails
+RunDetails(run).show()
+```
+
+```
+print(run.get_portal_url())
+```
+
+```
+print(run.get_file_names())
+```
+
+Register the model
+
+```
+# register model
+model = run.register_model(model_name='sklearn_test',
+                           model_path='outputs/sklearn_test_model.pkl')
+print(model.name, model.id, model.version, sep='\t')
+```
+
 When asked you might have to log in with device login.
 
 Batch inferecing
+
+Create batch_scoring file
+
+```
+%%writefile batch_scoring.py
+import io
+import pickle
+import argparse
+import numpy as np
+import pandas as pd
+
+import joblib
+import os
+import urllib
+import shutil
+import azureml
+
+from azureml.core.model import Model
+from sklearn.linear_model import LogisticRegression
+from sklearn.ensemble import RandomForestClassifier
+
+
+def init():
+    global touring_model
+
+    model_path = Model.get_model_path("sklearn_test")
+
+    #model_path = Model.get_model_path(args.model_name)
+    with open(model_path, 'rb') as model_file:
+        touring_model = joblib.load(model_file)
+
+
+def run(mini_batch):
+    # make inference    
+    print(f'run method start: {__file__}, run({mini_batch})')
+    resultList = []
+    for file in mini_batch:
+        input_data = pd.read_parquet(file, engine='pyarrow')
+        num_rows, num_cols = input_data.shape
+        pred = touring_model.predict(input_data).reshape((num_rows, 1))
+
+    # cleanup output
+    result = input_data.drop(input_data.columns[4:], axis=1)
+    result['variety'] = pred
+
+    return result
+```
+
+Configure input 
+
+```
+from azureml.core.datastore import Datastore
+
+batchscore_blob = Datastore.register_azure_blob_container(ws, 
+                      datastore_name="scoredataset", 
+                      container_name="containername", 
+                      account_name="storageaccoutnname",
+                      account_key="xxxxxxxxxxxxxxxxxxxxxxx",
+                      overwrite=True)
+
+def_data_store = ws.get_default_datastore()
+```
+
+Configure output
+
+```
+from azureml.core.datastore import Datastore
+
+batchscore_blob_out = Datastore.register_azure_blob_container(ws, 
+                      datastore_name="output", 
+                      container_name="containername", 
+                      account_name="storageaccountname", 
+                      account_key="xxxxxxxxxxxxxxxxxxxxxxxxxx",
+                      overwrite=True)
+
+def_data_store_out = ws.get_default_datastore()
+```
+
+```
+from azureml.core.dataset import Dataset
+from azureml.pipeline.core import PipelineData
+
+input_ds = Dataset.File.from_files((batchscore_blob, "/"))
+output_dir = PipelineData(name="scores", 
+                          datastore=def_data_store_out, 
+                          output_path_on_compute="results")
+```
+
+Setup  environment
 
 ```
 from azureml.core import Environment
@@ -182,72 +310,53 @@ env.python.conda_dependencies = cd
 env.docker.base_image = DEFAULT_CPU_IMAGE
 ```
 
-Setup Parallel Run
+Setup File dataset settings
 
 ```
-from azureml.contrib.pipeline.steps import ParallelRunConfig
+from azureml.pipeline.core import PipelineParameter
+from azureml.pipeline.steps import ParallelRunConfig
 
 parallel_run_config = ParallelRunConfig(
+    #source_directory=scripts_folder,
+    entry_script="batch_scoring.py",
+    mini_batch_size='1',
+    error_threshold=2,
+    output_action='append_row',
+    append_row_file_name="test_outputs.txt",
     environment=env,
-    entry_script="train.py",
-    source_directory=".",
-    output_action="append_row",
-    mini_batch_size="20",
-    error_threshold=1,
-    compute_target=cpu_cluster,
-    process_count_per_node=2,
-    node_count=1
-)
+    compute_target=cpu_cluster, 
+    node_count=3,
+    run_invocation_timeout=600)
 ```
 
-Parallel Step
-
 ```
-from azureml.contrib.pipeline.steps import ParallelRunStep
+from azureml.pipeline.steps import ParallelRunStep
 
 batch_score_step = ParallelRunStep(
     name="parallel-step-test",
-    inputs=[data_complete],
+    inputs=[input_ds.as_named_input("input_ds")],
     output=output_dir,
-    models=[model],
-    arguments=["--model_name", "inception",
-               "--labels_name", "label_ds"],
+    #models=[model],
     parallel_run_config=parallel_run_config,
-    allow_reuse=False
+    #arguments=['--model_name', 'sklearn_test'],
+    allow_reuse=True
 )
-``
+```
+
+now run the batch inference pipeline
 
 ```
 from azureml.core import Experiment
 from azureml.pipeline.core import Pipeline
 
 pipeline = Pipeline(workspace=ws, steps=[batch_score_step])
-pipeline_run = Experiment(ws, 'batch_scoring_ms').submit(pipeline)
+pipeline_run = Experiment(ws, 'batch_scoring').submit(pipeline)
 pipeline_run.wait_for_completion(show_output=True)
 ```
 
-```
-import pandas as pd
-
-batch_run = next(pipeline_run.get_children())
-batch_output = batch_run.get_output_data("scores")
-batch_output.download(local_path="inception_results")
-
-for root, dirs, files in os.walk("inception_results"):
-    for file in files:
-        if file.endswith("parallel_run_step.txt"):
-            result_file = os.path.join(root, file)
-
-df = pd.read_csv(result_file, delimiter=":", header=None)
-df.columns = ["Filename", "Prediction"]
-print("Prediction has ", df.shape[0], " rows")
-df.head(10)
-```
+Monitor
 
 ```
-published_pipeline = pipeline_run.publish_pipeline(
-    name="Inception_v3_scoring", description="Batch scoring using Inception v3 model", version="1.0")
-
-published_pipeline
+from azureml.widgets import RunDetails
+RunDetails(pipeline_run).show()
 ```
-
