@@ -234,7 +234,7 @@ from sklearn.ensemble import RandomForestClassifier
 def init():
     global touring_model
 
-    model_path = Model.get_model_path("sklearn_test")
+    model_path = Model.get_model_path("sklearn_touring")
 
     #model_path = Model.get_model_path(args.model_name)
     with open(model_path, 'rb') as model_file:
@@ -248,10 +248,15 @@ def run(mini_batch):
     for file in mini_batch:
         input_data = pd.read_parquet(file, engine='pyarrow')
         num_rows, num_cols = input_data.shape
-        pred = touring_model.predict(input_data).reshape((num_rows, 1))
+        X = input_data[[col for col in input_data.columns if "encoding" in col]]
+        y = input_data['touring_flag']
+
+        X = X[[col for col in X.columns if col not in ["income_premium_range_encoding", "networth_encoding"]]]
+        pred = touring_model.predict(X).reshape((num_rows, 1))
 
     # cleanup output
-    result = input_data.drop(input_data.columns[4:], axis=1)
+    #result = input_data.drop(input_data.columns[4:], axis=1)
+    result = X
     result['variety'] = pred
 
     return result
