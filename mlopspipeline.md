@@ -179,10 +179,13 @@ Now run the experiment. The experiment can take time and so please submit and wa
 run = experiment.submit(estimator)
 run.wait_for_completion(show_output=True)
 ```
+Display the metrics, metrics can vary based on what model algorithmn.
 
 ```
 print(run.get_metrics())
 ```
+
+Show the display of the model run.
 
 ```
 from azureml.widgets import RunDetails
@@ -210,7 +213,15 @@ When asked you might have to log in with device login.
 
 Batch inferecing
 
-Create batch_scoring file
+Create batch_scoring file. The below scoring script will load model and get's parameter as file data source as list.
+Each node will get one file. This allows us to parallelize the execution.
+
+Model is picked from model store inside azure machine learning service.
+
+```
+Note: The scoring file has to be formed correctly other wise there will be error's.
+```
+
 
 ```
 %%writefile batch_scoring.py
@@ -315,7 +326,11 @@ env.python.conda_dependencies = cd
 env.docker.base_image = DEFAULT_CPU_IMAGE
 ```
 
-Setup File dataset settings
+Setup File dataset settings. Now setup run configuration. For my example i had 2 files to process so my mini batch is set to 1.
+
+Look at error_threshold which is 2 means if 2 error occurs then stop the execution. Time out is set to 120 seconds if nodes are not responding then stop the execution.
+
+So this execution allows to run each file on each node.
 
 ```
 from azureml.pipeline.core import PipelineParameter
@@ -331,8 +346,10 @@ parallel_run_config = ParallelRunConfig(
     environment=env,
     compute_target=cpu_cluster, 
     node_count=3,
-    run_invocation_timeout=600)
+    run_invocation_timeout=120)
 ```
+
+Setup the input data source and output where to store the score file.
 
 ```
 from azureml.pipeline.steps import ParallelRunStep
@@ -365,3 +382,17 @@ Monitor
 from azureml.widgets import RunDetails
 RunDetails(pipeline_run).show()
 ```
+
+Check logs
+
+Go to Azure machine learning workspace -> Experiments -> batch_scoring -> click the latest run.
+
+Click on steps and then select Run and click. You should be able to see the code runtime errors.
+
+Expand the logs -> sys -> error and you should see the nodes select one node and then select agent000.txt file to see the errors.
+
+If there is no code runtime error go to logs -> sys -> nodes -> and should be able to see the execution logs.
+
+On the top root level expland azureml-logs and you can see the driver execution logs.
+
+Next is to validate the output and run multiple times.
