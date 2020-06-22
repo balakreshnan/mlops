@@ -1,5 +1,9 @@
 # Build Rest API and deploy to ACI as service
 
+## Flow Chart to show the process
+
+![alt text](https://github.com/balakreshnan/mlops/blob/master/images/mlopsstepsmlRestinference.jpg "mlops REST inference")
+
 Code sample below
 
 ```

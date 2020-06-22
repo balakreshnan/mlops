@@ -4,6 +4,10 @@
 
 ![alt text](https://github.com/balakreshnan/mlops/blob/master/images/mlopsflow1.jpg "mlops deploy")
 
+## Flow Chart to show the process
+
+![alt text](https://github.com/balakreshnan/mlops/blob/master/images/mlopsstepsmldev.jpg "mlops deploy")
+
 ## Code to run
 
 Let's import necessary packages
@@ -211,7 +215,7 @@ print(model.name, model.id, model.version, sep='\t')
 
 When asked you might have to log in with device login.
 
-Batch inferecing
+## Batch inferecing using Parallelism
 
 Create batch_scoring file. The below scoring script will load model and get's parameter as file data source as list.
 Each node will get one file. This allows us to parallelize the execution.
@@ -222,6 +226,9 @@ Model is picked from model store inside azure machine learning service.
 Note: The scoring file has to be formed correctly other wise there will be error's.
 ```
 
+## Flow Chart to show the process
+
+![alt text](https://github.com/balakreshnan/mlops/blob/master/images/mlopsstepsmlparallelscorebatch.jpg "mlops Parallel Step")
 
 ```
 %%writefile batch_scoring.py
