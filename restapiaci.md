@@ -66,9 +66,26 @@ def init():
 
 def run(raw_data):
     try:
-        data = np.array(json.loads(raw_data)['data'])
+        data = np.array(json.loads(raw_data)['raw_data']['data'])
+        
+        data = pd.DataFrame(data)
+        
+        data.columns = ['con_individual_id', 'con_cust_key', 'latitude_raw', 'longitude_raw',
+       'dealer_no', 'first_calendar_date', 'next_calendar_date',
+       'sportster_883_flag', 'touring_flag', 'softail_flag',
+       'sportster_1200_flag', 'cvo_custom_flag', 'trike_flag', 'street_flag',
+       'ev_flag', 'model_family', 'calendar_date',
+       'age_at_most_recent_purchase', 'divorce', 'heavy_transactor',
+       'econ_stability', 'gender', 'hh_size', 'marital', 'occupation',
+       'vehicle_count', 'tech_adoption', 'rent_own', 'divorce_target_encoding',
+       'heavy_transactor_local_encoding', 'econ_stability_local_encoding',
+       'gender_target_encoding', 'hh_size_target_encoding',
+       'marital_target_encoding', 'occupation_target_encoding',
+       'vehicle_count_target_encoding', 'age_at_most_recent_purchase_encoding',
+       'tech_adoption_encoding', 'rent_own_target_encoding']
+        
         # make prediction
-        X = data[[col for col in input_data.columns if "encoding" in col]]
+        X = data[[col for col in data.columns if "encoding" in col]]
         y = data['touring_flag']
 
         X = X[[col for col in X.columns if col not in ["income_premium_range_encoding", "networth_encoding"]]]
@@ -110,6 +127,7 @@ conda_dep.add_pip_package("azureml-defaults")
 # Installs pillow package
 conda_dep.add_pip_package("pillow")
 conda_dep.add_pip_package("scikit-learn")
+conda_dep.add_pip_package("pandas")
 
 # Adds dependencies to PythonSection of myenv
 env.python.conda_dependencies=conda_dep
