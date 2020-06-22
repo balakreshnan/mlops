@@ -66,7 +66,7 @@ def init():
 
 def run(raw_data):
     try:
-        data = np.array(json.loads(raw_data)['raw_data']['data'])
+        data = np.array(json.loads(raw_data)['input_data']['data'])
         
         data = pd.DataFrame(data)
         
