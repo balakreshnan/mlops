@@ -6,6 +6,8 @@
 
 Code sample below
 
+imports needed for the code to work.
+
 ```
 import os
 import urllib
@@ -20,9 +22,13 @@ from azureml.core.compute import ComputeTarget, AmlCompute
 from azureml.core.compute_target import ComputeTargetException
 ```
 
+Let's config the workspace so that the notebooks know which workspace to use.
+
 ```
 ws = Workspace.from_config()
 ```
+
+Set the necessary project folders. Temp folder used.
 
 ```
 project_folder = './touring-project'
@@ -40,6 +46,8 @@ os.makedirs(output_folder, exist_ok=True)
 result_folder = './results'
 os.makedirs(result_folder, exist_ok=True)
 ```
+
+Set the Cluster that the model will be scored.
 
 ```
 from azureml.core.compute import ComputeTarget, AmlCompute
@@ -59,6 +67,8 @@ except ComputeTargetException:
 
 cpu_cluster.wait_for_completion(show_output=True)
 ```
+
+Select the default image and dependancies for the above cluster to operate on.
 
 ```
 from azureml.core.runconfig import RunConfiguration
@@ -83,6 +93,8 @@ run_amlcompute.environment.python.user_managed_dependencies = False
 # Specify CondaDependencies obj, add necessary packages
 run_amlcompute.environment.python.conda_dependencies = CondaDependencies.create(conda_packages=['scikit-learn'])
 ```
+
+Write the batch scoring file - here is where the logic of how to use the model with new data and score the input for prediction.
 
 ```
 %%writefile batch_scoring.py
@@ -134,6 +146,8 @@ def run(mini_batch):
     return result
 ```
 
+Time to Set the input data source to be used for scoring.
+
 ```
 from azureml.core.datastore import Datastore
 
@@ -146,6 +160,8 @@ batchscore_blob = Datastore.register_azure_blob_container(ws,
 
 def_data_store = ws.get_default_datastore()
 ```
+
+Output data source where to store the output scored file.
 
 ```
 from azureml.core.datastore import Datastore
@@ -160,6 +176,8 @@ batchscore_blob_out = Datastore.register_azure_blob_container(ws,
 def_data_store_out = ws.get_default_datastore()
 ```
 
+Configure the pipeline with data sets.
+
 ```
 from azureml.core.dataset import Dataset
 from azureml.pipeline.core import PipelineData
@@ -169,6 +187,8 @@ output_dir = PipelineData(name="scores",
                           datastore=def_data_store_out, 
                           output_path_on_compute="results")
 ```
+
+Set environments
 
 ```
 from azureml.core import Environment
@@ -180,6 +200,8 @@ env = Environment(name="parallelenv")
 env.python.conda_dependencies = cd
 env.docker.base_image = DEFAULT_CPU_IMAGE
 ```
+
+Configure pipeline parameters
 
 ```
 from azureml.pipeline.core import PipelineParameter
@@ -198,6 +220,8 @@ parallel_run_config = ParallelRunConfig(
     run_invocation_timeout=120)
 ```
 
+Configure pipeline steps
+
 ```
 from azureml.pipeline.steps import ParallelRunStep
 
@@ -212,6 +236,8 @@ batch_score_step = ParallelRunStep(
 )
 ```
 
+Execute Pipeline.
+
 ```
 from azureml.core import Experiment
 from azureml.pipeline.core import Pipeline
@@ -221,11 +247,11 @@ pipeline_run = Experiment(ws, 'batch_scoring').submit(pipeline)
 pipeline_run.wait_for_completion(show_output=True)
 ```
 
+Display experiment run status
+
 ```
 from azureml.widgets import RunDetails
 RunDetails(pipeline_run).show()
-```
-
 ```
 
 End of pipeline run.
