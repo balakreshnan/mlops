@@ -327,7 +327,7 @@ from azureml.core import Environment
 from azureml.core.conda_dependencies import CondaDependencies
 from azureml.core.runconfig import DEFAULT_CPU_IMAGE
 
-cd = CondaDependencies.create(pip_packages=["scikit-learn", "azureml-defaults"])
+cd = CondaDependencies.create(pip_packages=["scikit-learn", "azureml-defaults","pyarrow"])
 env = Environment(name="parallelenv")
 env.python.conda_dependencies = cd
 env.docker.base_image = DEFAULT_CPU_IMAGE
