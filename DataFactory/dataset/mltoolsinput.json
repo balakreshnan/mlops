@@ -1,0 +1,17 @@
+{
+	"name": "mltoolsinput",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "mltoolsinput",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Binary",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileSystem": "design-research-files"
+			}
+		}
+	}
+}
