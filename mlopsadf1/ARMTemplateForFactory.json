@@ -27,6 +27,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'milwaukeetoolsdata'"
 		},
+		"mltoolsinput_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'mltoolsinput'"
+		},
 		"AzureDataLakeStorage1_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://mlopssa.dfs.core.windows.net"
@@ -38,6 +42,10 @@
 		"milwaukeetoolsdata_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://milwaukeetoolsdata.dfs.core.windows.net"
+		},
+		"mltoolsinput_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://diemodeltraining.dfs.core.windows.net"
 		}
 	},
 	"variables": {
@@ -130,6 +138,9 @@
 								"storeSettings": {
 									"type": "AzureBlobStorageReadSettings",
 									"recursive": true
+								},
+								"formatSettings": {
+									"type": "BinaryReadSettings"
 								}
 							},
 							"sink": {
@@ -161,6 +172,66 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/imagesinput')]",
 				"[concat(variables('factoryId'), '/datasets/outputexcelon')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/cpimagesrdmilwaukeetools')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "moveimages",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "BinarySource",
+								"storeSettings": {
+									"type": "AzureBlobFSReadSettings",
+									"recursive": true
+								},
+								"formatSettings": {
+									"type": "BinaryReadSettings"
+								}
+							},
+							"sink": {
+								"type": "BinarySink",
+								"storeSettings": {
+									"type": "AzureBlobFSWriteSettings"
+								}
+							},
+							"enableStaging": false
+						},
+						"inputs": [
+							{
+								"referenceName": "rdtoolsimages",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "rdimagesmlops",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/rdtoolsimages')]",
+				"[concat(variables('factoryId'), '/datasets/rdimagesmlops')]"
 			]
 		},
 		{
@@ -253,6 +324,50 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/rdimagesmlops')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureDataLakeStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Binary",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileSystem": "rdmilwaukeetools"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorage1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/rdtoolsimages')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "milwaukeetoolsdata",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Binary",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileSystem": "imagetag"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/milwaukeetoolsdata')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/AzureDataLakeStorage1')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -313,13 +428,30 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/cpimagesrdmilwaukeetools')]",
+			"name": "[concat(parameters('factoryName'), '/milwaukeetoolsdata')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobFS",
+				"typeProperties": {
+					"url": "[parameters('milwaukeetoolsdata_properties_typeProperties_url')]",
+					"accountKey": {
+						"type": "SecureString",
+						"value": "[parameters('milwaukeetoolsdata_accountKey')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/mtoolsimagecopy')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"activities": [
 					{
-						"name": "moveimages",
+						"name": "copy imagefrommilwauleetooltolocal",
 						"type": "Copy",
 						"dependsOn": [],
 						"policy": {
@@ -351,14 +483,14 @@
 						},
 						"inputs": [
 							{
-								"referenceName": "rdtoolsimages",
+								"referenceName": "mltoolsinput",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
 						],
 						"outputs": [
 							{
-								"referenceName": "rdimagesmlops",
+								"referenceName": "rdtoolsimages",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -368,34 +500,34 @@
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/rdtoolsimages')]",
-				"[concat(variables('factoryId'), '/datasets/rdimagesmlops')]"
+				"[concat(variables('factoryId'), '/datasets/mltoolsinput')]",
+				"[concat(variables('factoryId'), '/datasets/rdtoolsimages')]"
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/milwaukeetoolsdata')]",
+			"name": "[concat(parameters('factoryName'), '/mltoolsinput')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"annotations": [],
 				"type": "AzureBlobFS",
 				"typeProperties": {
-					"url": "[parameters('milwaukeetoolsdata_properties_typeProperties_url')]",
+					"url": "[parameters('mltoolsinput_properties_typeProperties_url')]",
 					"accountKey": {
 						"type": "SecureString",
-						"value": "[parameters('milwaukeetoolsdata_accountKey')]"
+						"value": "[parameters('mltoolsinput_accountKey')]"
 					}
 				}
 			},
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/rdtoolsimages')]",
+			"name": "[concat(parameters('factoryName'), '/mltoolsinput')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"linkedServiceName": {
-					"referenceName": "milwaukeetoolsdata",
+					"referenceName": "mltoolsinput",
 					"type": "LinkedServiceReference"
 				},
 				"annotations": [],
@@ -403,34 +535,12 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobFSLocation",
-						"fileSystem": "imagetag"
+						"fileSystem": "design-research-files"
 					}
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/milwaukeetoolsdata')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/rdimagesmlops')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureDataLakeStorage1",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "Binary",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"fileSystem": "rdmilwaukeetools"
-					}
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorage1')]"
+				"[concat(variables('factoryId'), '/linkedServices/mltoolsinput')]"
 			]
 		}
 	]

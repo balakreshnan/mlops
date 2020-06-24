@@ -20,6 +20,9 @@
 		"milwaukeetoolsdata_accountKey": {
 			"value": ""
 		},
+		"mltoolsinput_accountKey": {
+			"value": ""
+		},
 		"AzureDataLakeStorage1_properties_typeProperties_url": {
 			"value": "https://mlopssa.dfs.core.windows.net"
 		},
@@ -28,6 +31,9 @@
 		},
 		"milwaukeetoolsdata_properties_typeProperties_url": {
 			"value": "https://milwaukeetoolsdata.dfs.core.windows.net"
+		},
+		"mltoolsinput_properties_typeProperties_url": {
+			"value": "https://diemodeltraining.dfs.core.windows.net"
 		},
 		"containerUri": {
 			"value": ""

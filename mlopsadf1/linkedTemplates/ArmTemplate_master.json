@@ -27,6 +27,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'milwaukeetoolsdata'"
 		},
+		"mltoolsinput_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'mltoolsinput'"
+		},
 		"AzureDataLakeStorage1_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://mlopssa.dfs.core.windows.net"
@@ -38,6 +42,10 @@
 		"milwaukeetoolsdata_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://milwaukeetoolsdata.dfs.core.windows.net"
+		},
+		"mltoolsinput_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://diemodeltraining.dfs.core.windows.net"
 		},
 		"containerUri": {
 			"type": "string",
@@ -81,6 +89,9 @@
 					"milwaukeetoolsdata_accountKey": {
 						"value": "[parameters('milwaukeetoolsdata_accountKey')]"
 					},
+					"mltoolsinput_accountKey": {
+						"value": "[parameters('mltoolsinput_accountKey')]"
+					},
 					"AzureDataLakeStorage1_properties_typeProperties_url": {
 						"value": "[parameters('AzureDataLakeStorage1_properties_typeProperties_url')]"
 					},
@@ -89,6 +100,9 @@
 					},
 					"milwaukeetoolsdata_properties_typeProperties_url": {
 						"value": "[parameters('milwaukeetoolsdata_properties_typeProperties_url')]"
+					},
+					"mltoolsinput_properties_typeProperties_url": {
+						"value": "[parameters('mltoolsinput_properties_typeProperties_url')]"
 					}
 				}
 			},
