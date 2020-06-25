@@ -31,10 +31,10 @@ ws = Workspace.from_config()
 Set the necessary project folders. Temp folder used.
 
 ```
-project_folder = './touring-project'
+project_folder = './test-project'
 os.makedirs(project_folder, exist_ok=True)
 
-experiment = Experiment(workspace=ws, name='touring-model')
+experiment = Experiment(workspace=ws, name='test-model')
 ```
 
 ```
@@ -47,14 +47,14 @@ result_folder = './results'
 os.makedirs(result_folder, exist_ok=True)
 ```
 
-Set the Cluster that the model will be scored.
+Set the Cluster that the model will be used for scoring. Create a new cluster or else use an existing cluster.
 
 ```
 from azureml.core.compute import ComputeTarget, AmlCompute
 from azureml.core.compute_target import ComputeTargetException
 
 # Choose a name for your CPU cluster
-cpu_cluster_name = "touringcluster"
+cpu_cluster_name = "testcluster"
 
 # Verify that cluster does not exist already
 try:
@@ -96,6 +96,10 @@ run_amlcompute.environment.python.conda_dependencies = CondaDependencies.create(
 
 Write the batch scoring file - here is where the logic of how to use the model with new data and score the input for prediction.
 
+Process of the batch scoring file is to load all the necessary libraries. Then Load the model that we are going to use.
+
+After model is loaded the main run function will take each file as parameter and score. Each file can be parallalized with one node to scale horizontally. The run function open's each file then predict and saves the output.
+
 ```
 %%writefile batch_scoring.py
 import io
@@ -116,13 +120,13 @@ from sklearn.ensemble import RandomForestClassifier
 
 
 def init():
-    global touring_model
+    global test_model
 
-    model_path = Model.get_model_path("sklearn_touring")
+    model_path = Model.get_model_path("sklearn_test)
 
     #model_path = Model.get_model_path(args.model_name)
     with open(model_path, 'rb') as model_file:
-        touring_model = joblib.load(model_file)
+        test_model = joblib.load(model_file)
 
 
 def run(mini_batch):
@@ -133,10 +137,10 @@ def run(mini_batch):
         input_data = pd.read_parquet(file, engine='pyarrow')
         num_rows, num_cols = input_data.shape
         X = input_data[[col for col in input_data.columns if "encoding" in col]]
-        y = input_data['touring_flag']
+        y = input_data['test_flag']
 
-        X = X[[col for col in X.columns if col not in ["income_premium_range_encoding", "networth_encoding"]]]
-        pred = touring_model.predict(X).reshape((num_rows, 1))
+        X = X[[col for col in X.columns if col not in ["xxxx_premium_range_encoding", "xyz_encoding"]]]
+        pred = test_model.predict(X).reshape((num_rows, 1))
 
     # cleanup output
     #result = input_data.drop(input_data.columns[4:], axis=1)
