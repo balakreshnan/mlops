@@ -259,3 +259,6 @@ RunDetails(pipeline_run).show()
 ```
 
 End of pipeline run.
+
+For output and debug follow the article here 
+https://docs.microsoft.com/en-us/azure/machine-learning/how-to-debug-parallel-run-step
