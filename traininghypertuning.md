@@ -280,15 +280,15 @@ from azureml.core import Workspace, Dataset
 
 from azureml.core.authentication import ServicePrincipalAuthentication
  
-svc_pr_password = "1fY58u0dpP1Yg-i.A~rUp_iz04RxWUFSwv"
+svc_pr_password = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
  
 svc_pr = ServicePrincipalAuthentication(
-    tenant_id="72f988bf-86f1-41af-91ab-2d7cd011db47",
-    service_principal_id="8a3ddafe-6dd6-48af-867e-d745232a1833",
-    service_principal_password="1fY58u0dpP1Yg-i.A~rUp_iz04RxWUFSwv")
+    tenant_id="xxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+    service_principal_id="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+    service_principal_password="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
  
 ws = Workspace(
-    subscription_id="c46a9435-c957-4e6c-a0f4-b9a597984773",
+    subscription_id="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
     resource_group="mlops",
     workspace_name="mlopsdev",
     auth=svc_pr
