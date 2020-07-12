@@ -26,9 +26,32 @@ from __future__ import print_function
 
 import tensorflow as tf
 import pandas
-from azureml.logging import get_azureml_logger
+#from azureml.logging import get_azureml_logger
+from azureml.core import Experiment
 
-run_logger = get_azureml_logger()
+#run_logger = get_azureml_logger()
+
+from azureml.core import Workspace, Dataset
+
+from azureml.core.authentication import ServicePrincipalAuthentication
+ 
+svc_pr_password = "1fY58u0dpP1Yg-i.A~rUp_iz04RxWUFSwv"
+ 
+svc_pr = ServicePrincipalAuthentication(
+    tenant_id="72f988bf-86f1-41af-91ab-2d7cd011db47",
+    service_principal_id="8a3ddafe-6dd6-48af-867e-d745232a1833",
+    service_principal_password="1fY58u0dpP1Yg-i.A~rUp_iz04RxWUFSwv")
+ 
+ws = Workspace(
+    subscription_id="c46a9435-c957-4e6c-a0f4-b9a597984773",
+    resource_group="mlops",
+    workspace_name="gputraining",
+    auth=svc_pr
+    )
+
+exp = Experiment(workspace=ws, name='tf-mnist')
+run = exp.start_logging()
+run.log("test-val-exp", 10)
 
 # Import MNIST data
 from tensorflow.examples.tutorials.mnist import input_data
@@ -151,8 +174,8 @@ with tf.Session() as sess:
             losses.append(float(loss))
         step += 1
     print("Optimization Finished!")
-    run_logger.log("Accuracy", metrics)
-    run_logger.log("Loss", losses)
+    run.log_list("Accuracy", metrics)
+    run.log_list("Loss", losses)
 
     # Calculate accuracy for 256 mnist test images
     print("Testing Accuracy:", \
