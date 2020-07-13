@@ -53,6 +53,13 @@ exp = Experiment(workspace=ws, name='tf-mnist')
 run = exp.start_logging()
 run.log("test-val-exp", 10)
 
+# Create a model folder in the current directory
+os.makedirs('./model', exist_ok=True)
+# Create a model folder in the current directory
+os.makedirs('./outputs', exist_ok=True)
+os.makedirs('./outputs/model', exist_ok=True)
+
+
 # Import MNIST data
 from tensorflow.examples.tutorials.mnist import input_data
 mnist = input_data.read_data_sets("/tmp/data/", one_hot=True)
@@ -145,6 +152,8 @@ optimizer = tf.train.AdamOptimizer(learning_rate=learning_rate).minimize(cost)
 correct_pred = tf.equal(tf.argmax(pred, 1), tf.argmax(y, 1))
 accuracy = tf.reduce_mean(tf.cast(correct_pred, tf.float32))
 
+saver = tf.train.Saver()
+
 # Initializing the variables
 init = tf.global_variables_initializer()
 
@@ -182,3 +191,14 @@ with tf.Session() as sess:
         sess.run(accuracy, feed_dict={x: mnist.test.images[:256],
                                       y: mnist.test.labels[:256],
                                       keep_prob: 1.}))
+    saver.save(sess, './outputs/model/tf-dnn-mnist')
+    print("Saved Model")
+
+print("Read model and Save to Local")
+for f in run.get_file_names():
+    if f.startswith('outputs/model'):
+        output_file_path = os.path.join('./model', f.split('/')[-1])
+        print('Downloading from {} to {} ...'.format(f, output_file_path))
+        run.download_file(name=f, output_file_path=output_file_path)
+
+print("Completed Write")
