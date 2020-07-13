@@ -39,4 +39,11 @@ do \
   echo "jj"; \
 done
 
-az ml run list --experiment-name "tf-mnist" --query "[?contains(target, 'sdk')]" --output table
+az ml run list --experiment-name "tf-mnist" --query "[?contains(target, 'sdk')]" --output table | while read line
+
+az ml run list --experiment-name "tf-mnist" --query "[?contains(target, 'sdk')].[run_id]" --output table >> names.txt
+
+
+foreach($line in Get-Content names.txt) {
+  az ml run cancel --run $line
+}
