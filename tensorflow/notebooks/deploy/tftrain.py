@@ -94,7 +94,7 @@ script_params = {
     '--learning-rate': 0.01
 }
 
-est = TensorFlow(source_directory=script_folder,
+est = TensorFlow(#source_directory=script_folder,
                  entry_script='tf_mnist.py',
                  script_params=script_params,
                  compute_target=compute_target,
