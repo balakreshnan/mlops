@@ -28,6 +28,7 @@ import tensorflow as tf
 import pandas
 #from azureml.logging import get_azureml_logger
 from azureml.core import Experiment
+from statistics import mean
 
 #run_logger = get_azureml_logger()
 
@@ -183,14 +184,30 @@ with tf.Session() as sess:
             losses.append(float(loss))
         step += 1
     print("Optimization Finished!")
-    run.log_list("Accuracy", metrics)
-    run.log_list("Loss", losses)
+    #print(metrics)
+    #print(losses)
+    print("Length Accuracy: " + str(len(metrics)))
+    #run.log_list("Accuracy", metrics[:(len(metrics)-1)])
+    #run.log_list("Accuracy", metrics[N:])
+    print("Length Losses: " + str(len(losses)))
+    #run.log_list("Loss", losses[:(len(losses)-1)])
+    #run.log_list("Loss", losses[N:])
+    
+    #run.log_list("Accuracy", mean(metrics))
+    #run.log_list("Loss", mean(losses))
+    
 
     # Calculate accuracy for 256 mnist test images
     print("Testing Accuracy:", \
         sess.run(accuracy, feed_dict={x: mnist.test.images[:256],
                                       y: mnist.test.labels[:256],
                                       keep_prob: 1.}))
+    accvalue = sess.run(accuracy, feed_dict={x: mnist.test.images[:256],
+                                      y: mnist.test.labels[:256],
+                                      keep_prob: 1.})
+    print("Accuracy Avg: " + "{:.5f}".format(accvalue))
+    run.log_list("accuracyavg", str(accvalue))
+    
     saver.save(sess, './outputs/model/tf-dnn-mnist')
     print("Saved Model")
 
