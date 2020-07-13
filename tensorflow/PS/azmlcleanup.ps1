@@ -108,3 +108,5 @@ az ml run list --experiment-name "tf-mnist" --query "[?contains(target, 'sdk')].
 
 az ml run list --experiment-name "tf-mnist" --query "[?contains(status, 'Running')].[run_id,status]" --output table
 
+az ml run cancel -r 7abe08bb-f51d-4107-aba2-c34c83d3c36d -w gputraining -e tf-mnist
+az ml run cancel -r 6760c046-a768-4661-8db1-48d880e7192b -w gputraining -e tf-mnist
