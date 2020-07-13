@@ -47,7 +47,8 @@ ws = Workspace(
     auth=svc_pr
     )
 
-script_folder = './tf-mnist'
+#script_folder = './tf-mnist'
+script_folder = './'
 os.makedirs(script_folder, exist_ok=True)
 
 exp = Experiment(workspace=ws, name='tf-mnist')
