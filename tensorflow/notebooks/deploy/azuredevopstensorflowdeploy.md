@@ -51,35 +51,41 @@ https://github.com/balakreshnan/mlops
 
 ![alt text](https://github.com/balakreshnan/mlops/blob/master/images/devops-mlopstf2.jpg "DevOps")
 
-4. Create a Empty Job
+4. Create Variables
+
+![alt text](https://github.com/balakreshnan/mlops/blob/master/images/devops-mlopstf12.jpg "DevOps")
+
+Also please create a Machine learning service connection. (note: might have to install azure machine learning extension)
+
+5. Create a Empty Job
 
 ![alt text](https://github.com/balakreshnan/mlops/blob/master/images/devops-mlopstf3.jpg "DevOps")
 
-5. Configure agent configuration for example in our case use ubuntu 16.04 as linux version
+6. Configure agent configuration for example in our case use ubuntu 16.04 as linux version
 
 ![alt text](https://github.com/balakreshnan/mlops/blob/master/images/devops-mlopstf4.jpg "DevOps")
 
-6. Lets setup python version
+7. Lets setup python version
 
 ![alt text](https://github.com/balakreshnan/mlops/blob/master/images/devops-mlopstf5.jpg "DevOps")
 
-7. Install dependencies
+8. Install dependencies
 
 ![alt text](https://github.com/balakreshnan/mlops/blob/master/images/devops-mlopstf6.jpg "DevOps")
 
-8. Copy files to build folder
+9. Copy files to build folder
 
 ![alt text](https://github.com/balakreshnan/mlops/blob/master/images/devops-mlopstf7.jpg "DevOps")
 
-9. Run the Pipeline config python file to start the train.
+10. Run the Pipeline config python file to start the train.
 
 ![alt text](https://github.com/balakreshnan/mlops/blob/master/images/devops-mlopstf8.jpg "DevOps")
 
-10. Save and queue the job to run.
+11. Save and queue the job to run.
 
 ![alt text](https://github.com/balakreshnan/mlops/blob/master/images/devops-mlopstf9.jpg "DevOps")
 
-11. Examine the logs for any error and troubleshoot.
+12. Examine the logs for any error and troubleshoot.
 
 ![alt text](https://github.com/balakreshnan/mlops/blob/master/images/devops-mlopstf10.jpg "DevOps")
 
