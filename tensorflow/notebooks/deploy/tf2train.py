@@ -1,6 +1,6 @@
 import numpy as np
 import os
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 
 import azureml
 from azureml.core import Workspace
@@ -65,15 +65,15 @@ y_test = load_data(os.path.join(data_folder, 't10k-labels-idx1-ubyte.gz'), True)
 
 count = 0
 sample_size = 30
-plt.figure(figsize = (16, 6))
-for i in np.random.permutation(X_train.shape[0])[:sample_size]:
-    count = count + 1
-    plt.subplot(1, sample_size, count)
-    plt.axhline('')
-    plt.axvline('')
-    plt.text(x = 10, y = -10, s = y_train[i], fontsize = 18)
-    plt.imshow(X_train[i].reshape(28, 28), cmap = plt.cm.Greys)
-plt.show()
+#plt.figure(figsize = (16, 6))
+#for i in np.random.permutation(X_train.shape[0])[:sample_size]:
+#    count = count + 1
+#    plt.subplot(1, sample_size, count)
+#    plt.axhline('')
+#    plt.axvline('')
+#    plt.text(x = 10, y = -10, s = y_train[i], fontsize = 18)
+#    plt.imshow(X_train[i].reshape(28, 28), cmap = plt.cm.Greys)
+#plt.show()
 
 from azureml.core.dataset import Dataset
 web_paths = ['https://azureopendatastorage.blob.core.windows.net/mnist/train-images-idx3-ubyte.gz',
@@ -168,15 +168,15 @@ run.get_file_names()
 os.makedirs('./imgs', exist_ok=True)
 metrics = run.get_metrics()
 
-plt.figure(figsize = (13,5))
-plt.plot(metrics['validation_acc'], 'r-', lw=4, alpha=.6)
-plt.plot(metrics['training_acc'], 'b--', alpha=0.5)
-plt.legend(['Full evaluation set', 'Training set mini-batch'])
-plt.xlabel('epochs', fontsize=14)
-plt.ylabel('accuracy', fontsize=14)
-plt.title('Accuracy over Epochs', fontsize=16)
-run.log_image(name='acc_over_epochs.png', plot=plt)
-plt.show()
+#plt.figure(figsize = (13,5))
+#plt.plot(metrics['validation_acc'], 'r-', lw=4, alpha=.6)
+#plt.plot(metrics['training_acc'], 'b--', alpha=0.5)
+#plt.legend(['Full evaluation set', 'Training set mini-batch'])
+#plt.xlabel('epochs', fontsize=14)
+#plt.ylabel('accuracy', fontsize=14)
+#plt.title('Accuracy over Epochs', fontsize=16)
+#run.log_image(name='acc_over_epochs.png', plot=plt)
+#plt.show()
 
 run.download_files(prefix='outputs/model', output_directory='./model', append_prefix=False)
 
