@@ -110,7 +110,7 @@ from azureml.core.conda_dependencies import CondaDependencies
 from azureml.core.runconfig import DEFAULT_GPU_IMAGE
 
 batch_conda_deps = CondaDependencies.create(pip_packages=["tensorflow==2.0.0", "pillow",
-                                                          "azureml-core", "azureml-dataprep[pandas, fuse]"])
+                                                          "azureml-core", "azureml-dataprep[pandas, fuse]","azureml-sdk[notebooks]"])
 
 batch_env = Environment(name="batch_environment")
 batch_env.python.conda_dependencies = batch_conda_deps
