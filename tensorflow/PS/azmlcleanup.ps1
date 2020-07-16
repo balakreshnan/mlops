@@ -110,3 +110,11 @@ az ml run list --experiment-name "tf-mnist" --query "[?contains(status, 'Running
 
 az ml run cancel -r 7abe08bb-f51d-4107-aba2-c34c83d3c36d -w gputraining -e tf-mnist
 az ml run cancel -r 6760c046-a768-4661-8db1-48d880e7192b -w gputraining -e tf-mnist
+
+az ml run cancel -r 19fe0d7e-1c7a-4132-a428-1d01d315e604 -w gputraining -e tf-mnist
+az ml run cancel -r 4092e458-79cd-430c-942c-93b3249cb589 -w gputraining -e tf-mnist
+az ml run cancel -r HD_6202ed82-b4ff-4dfa-81b7-77e567eccdc7 -w gputraining -e tf-mnist
+
+az ml run cancel -r HD_6202ed82-b4ff-4dfa-81b7-77e567eccdc7 -w gputraining -e tf-mnist
+az ml run cancel -r HD_6202ed82-b4ff-4dfa-81b7-77e567eccdc7 -w gputraining -e tf-mnist
+az ml run cancel -r HD_6202ed82-b4ff-4dfa-81b7-77e567eccdc7 -w gputraining -e tf-mnist
