@@ -154,8 +154,8 @@ pipeline = Pipeline(workspace=ws, steps=[parallelrun_step])
 experiment = Experiment(ws, 'batch_scoring')
 pipeline_run = experiment.submit(pipeline)
 
-from azureml.widgets import RunDetails
-RunDetails(pipeline_run).show()
+#from azureml.widgets import RunDetails
+#RunDetails(pipeline_run).show()
 
 pipeline_run.wait_for_completion(show_output=True)
 

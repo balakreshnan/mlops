@@ -153,9 +153,9 @@ est = TensorFlow(source_directory=script_folder,
 
 run = exp.submit(est)
 
-from azureml.widgets import RunDetails
+#from azureml.widgets import RunDetails
 
-RunDetails(run).show()
+#RunDetails(run).show()
 
 run.wait_for_completion(show_output=True)
 
@@ -224,7 +224,7 @@ htc = HyperDriveConfig(estimator=est,
 
 htr = exp.submit(config=htc)
 
-RunDetails(htr).show()
+#RunDetails(htr).show()
 
 htr.wait_for_completion(show_output=True)
 
