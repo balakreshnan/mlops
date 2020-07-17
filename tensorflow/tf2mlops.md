@@ -16,6 +16,9 @@
 
 ## Use Case
 
+## Architecture
+
+![alt text](https://github.com/balakreshnan/mlops/blob/master/images/tfmlopsflowbuild.jpg "Architecture")
 
 ## Steps - MLOps - CI/CD
 
