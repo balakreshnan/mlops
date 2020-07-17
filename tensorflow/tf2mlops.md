@@ -130,6 +130,6 @@ Note agent dependencies files is same as the one from above for build.
 
 9) Save and Run the release pipeline and wait for it to finish
 
-![alt text](https://github.com/balakreshnan/mlops/blob/master/tensorflow/images/tf2Release10.jpg "Tensorflow")
+![alt text](https://github.com/balakreshnan/mlops/blob/master/tensorflow/images/tf2Release9.jpg "Tensorflow")
 
 Now this shows a complete End to End CI/CD using Azure Devops and can be automated based on criteria and also gated operations can also be include.
