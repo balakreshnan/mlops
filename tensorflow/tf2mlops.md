@@ -18,7 +18,7 @@
 
 ## Architecture
 
-![alt text](https://github.com/balakreshnan/mlops/blob/master/images/tfmlopsflowbuild.jpg "Architecture")
+![alt text](https://github.com/balakreshnan/mlops/blob/master/images/tfmlopsflowbuild1.jpg "Architecture")
 
 ## Steps - MLOps - CI/CD
 
@@ -28,6 +28,8 @@
 ## Build Pipeline
 
 Make sure the code is available in github repo and azure resources are created.
+
+![alt text](https://github.com/balakreshnan/mlops/blob/master/images/tfmlopsflowbuild.jpg "Architecture")
 
 Log into dev.azure.com and create a project
 
@@ -87,6 +89,8 @@ Now time to move to release
 ## Release Pipeline
 
 From the left menu select release and create a new Release pipeline
+
+![alt text](https://github.com/balakreshnan/mlops/blob/master/images/tfmlopsflowbuild2.jpg "Architecture")
 
 1) Click New release Pipelines
 
