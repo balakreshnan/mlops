@@ -31,6 +31,14 @@ ws = Workspace(
     )
 ws
 
+from azureml.core.dataset import Dataset
+web_paths = ['https://azureopendatastorage.blob.core.windows.net/mnist/train-images-idx3-ubyte.gz',
+             'https://azureopendatastorage.blob.core.windows.net/mnist/train-labels-idx1-ubyte.gz',
+             'https://azureopendatastorage.blob.core.windows.net/mnist/t10k-images-idx3-ubyte.gz',
+             'https://azureopendatastorage.blob.core.windows.net/mnist/t10k-labels-idx1-ubyte.gz'
+            ]
+dataset = Dataset.File.from_files(path = web_paths)
+
 dataset_registered = False
 try:
     temp = Dataset.get_by_name(workspace = ws, name = 'bbminsttest')
