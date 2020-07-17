@@ -83,3 +83,46 @@ Now time to move to release
 
 ## Release Pipeline
 
+From the left menu select release and create a new Release pipeline
+
+1) Click New release Pipelines
+
+![alt text](https://github.com/balakreshnan/mlops/blob/master/tensorflow/images/tf2Release1.jpg "Tensorflow")
+
+2) Select am Empty Job to start with
+
+![alt text](https://github.com/balakreshnan/mlops/blob/master/tensorflow/images/tf2Release2.jpg "Tensorflow")
+
+3) Add artifacts first and select github to get the code repo.
+
+![alt text](https://github.com/balakreshnan/mlops/blob/master/tensorflow/images/tf2Release3.jpg "Tensorflow")
+
+4) Configure the agent to use ubuntu 16.04
+
+![alt text](https://github.com/balakreshnan/mlops/blob/master/tensorflow/images/tf2Release4.jpg "Tensorflow")
+
+5) Add Task to set python version and set to 3.6
+
+![alt text](https://github.com/balakreshnan/mlops/blob/master/tensorflow/images/tf2Release5.jpg "Tensorflow")
+
+6) Add task to run the agent dependencies 
+
+![alt text](https://github.com/balakreshnan/mlops/blob/master/tensorflow/images/tf2Release6.jpg "Tensorflow")
+
+```
+Note agent dependencies files is same as the one from above for build.
+```
+
+7) Add Task to copy file to artifact folder to run the code.
+
+![alt text](https://github.com/balakreshnan/mlops/blob/master/tensorflow/images/tf2Release7.jpg "Tensorflow")
+
+8) Add Python Task to run the batch scoring script
+
+![alt text](https://github.com/balakreshnan/mlops/blob/master/tensorflow/images/tf2Release8.jpg "Tensorflow")
+
+9) Save and Run the release pipeline and wait for it to finish
+
+![alt text](https://github.com/balakreshnan/mlops/blob/master/tensorflow/images/tf2Release10.jpg "Tensorflow")
+
+Now this shows a complete End to End CI/CD using Azure Devops and can be automated based on criteria and also gated operations can also be include.
