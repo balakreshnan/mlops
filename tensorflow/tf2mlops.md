@@ -20,6 +20,10 @@
 
 ![alt text](https://github.com/balakreshnan/mlops/blob/master/images/tfmlopsflowbuild1.jpg "Architecture")
 
+## Code 
+
+https://github.com/balakreshnan/mlops/blob/master/tensorflow/tf2train.md
+
 ## Steps - MLOps - CI/CD
 
 - Build Pipeline
@@ -88,9 +92,15 @@ Now time to move to release
 
 ## Release Pipeline
 
-From the left menu select release and create a new Release pipeline
+## Code
+
+https://github.com/balakreshnan/mlops/blob/master/tensorflow/tf2batch.md
+
+## Architecture
 
 ![alt text](https://github.com/balakreshnan/mlops/blob/master/images/tfmlopsflowbuild2.jpg "Architecture")
+
+From the left menu select release and create a new Release pipeline
 
 1) Click New release Pipelines
 
