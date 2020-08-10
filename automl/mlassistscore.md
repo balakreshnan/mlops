@@ -55,7 +55,7 @@ currentrun=Run(experiment, "AutoML_e2a27bf7-fde4-4d4e-xxxx-xxxxxxxxx")
 currentrun.id
 ```
 
-- Now time to get the auto ml run id 
+- Now time to get the auto ml run id
 
 ```
 # Load training script run corresponding to AutoML run above.
