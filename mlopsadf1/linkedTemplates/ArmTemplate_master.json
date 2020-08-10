@@ -31,6 +31,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'mltoolsinput'"
 		},
+		"vijaiblobstore_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'vijaiblobstore'"
+		},
 		"AzureDataLakeStorage1_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://mlopssa.dfs.core.windows.net"
@@ -46,6 +50,10 @@
 		"mltoolsinput_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://diemodeltraining.dfs.core.windows.net"
+		},
+		"vijaiblobstore_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://vkannlabelinge2eod.dfs.core.windows.net"
 		},
 		"containerUri": {
 			"type": "string",
@@ -92,6 +100,9 @@
 					"mltoolsinput_accountKey": {
 						"value": "[parameters('mltoolsinput_accountKey')]"
 					},
+					"vijaiblobstore_accountKey": {
+						"value": "[parameters('vijaiblobstore_accountKey')]"
+					},
 					"AzureDataLakeStorage1_properties_typeProperties_url": {
 						"value": "[parameters('AzureDataLakeStorage1_properties_typeProperties_url')]"
 					},
@@ -103,10 +114,33 @@
 					},
 					"mltoolsinput_properties_typeProperties_url": {
 						"value": "[parameters('mltoolsinput_properties_typeProperties_url')]"
+					},
+					"vijaiblobstore_properties_typeProperties_url": {
+						"value": "[parameters('vijaiblobstore_properties_typeProperties_url')]"
 					}
 				}
 			},
 			"dependsOn": []
+		},
+		{
+			"name": "ArmTemplate_1",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_1.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'ArmTemplate_0')]"
+			]
 		}
 	]
 }

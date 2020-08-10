@@ -23,6 +23,9 @@
 		"mltoolsinput_accountKey": {
 			"value": ""
 		},
+		"vijaiblobstore_accountKey": {
+			"value": ""
+		},
 		"AzureDataLakeStorage1_properties_typeProperties_url": {
 			"value": "https://mlopssa.dfs.core.windows.net"
 		},
@@ -34,6 +37,9 @@
 		},
 		"mltoolsinput_properties_typeProperties_url": {
 			"value": "https://diemodeltraining.dfs.core.windows.net"
+		},
+		"vijaiblobstore_properties_typeProperties_url": {
+			"value": "https://vkannlabelinge2eod.dfs.core.windows.net"
 		}
 	}
 }
