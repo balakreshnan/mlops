@@ -2,19 +2,19 @@
 
 ## Convert the Azure machine learning dataset from ML assist/data labelling output to XML for Object detection modelling
 
-One of the challeng with Azure ML data set is ability to export to format which can be leveraged into existing Mask R-CNN or Fast R-CNN or resnet to train for object detection.
+One of the challenge with Azure ML data set is ability to export to format which can be leveraged into existing Mask R-CNN or Fast R-CNN or resnet to train for object detection.
 
 Azure Machine learning ml assist data set is in different format.
 
-This tutorial walks through step take the AML data set anc convert to XML to be able to use in any object detection model
+This tutorial walks through step take the AML data set and convert to XML to be able to use in any object detection model
 
-## Pre Requistie
+## Pre Requisite
 
 - Azure machine learning service
 - Create data labelling project
-- enable ML assit 
+- enable ML assist 
 - label images
-- Export label outout as Azure ML dataset
+- Export label output as Azure ML dataset
 - compute instance
 
 When saved, the dataset section will have the new dataset
