@@ -128,4 +128,9 @@ for index, row in objdf[['imgfile', 'label']].iterrows():
 - Above code first expands each row from the data frame. Then get the image name and Labels list
 - Loop the label list to get the label and bounding box cordinates
 - Format the XML 
-- Finally write the xml to disk.
+- Finally write the xml to disk
+- sample output xml
+
+```
+<annotation><folder /><filename>2020-02-27T09-42-38.000000Z.jpg</filename><size /><segmented /><object><name>nostock</name><bndbox><xmin>0.19410098496303763</xmin><ymin>0.31760204081632654</ymin><xmax>0.2524044351338486</xmax><ymax>0.5690306371572066</ymax></bndbox></object><object><name>nostock</name><bndbox><xmin>0.3393817204301075</xmin><ymin>0.3241326779735332</ymin><xmax>0.43878436344926075</xmax><ymax>0.5657653185786033</ymax></bndbox></object><object><name>nostock</name><bndbox><xmin>0.7188321094216696</xmin><ymin>0.3012755102040816</ymin><xmax>0.8144116327611634</xmax><ymax>0.5478060975366709</ymax></bndbox></object><object><name>nostock</name><bndbox><xmin>0.4263590057263665</xmin><ymin>0.5951531857860332</ymin><xmax>0.5506122912699746</xmax><ymax>0.7437245271643814</ymax></bndbox></object><object><name>nostock</name><bndbox><xmin>0.09756571816429585</xmin><ymin>0.015561224489795918</ymin><xmax>0.20939368244567652</xmax><ymax>0.2278061224489796</ymax></bndbox><difficult /></object></annotation>
+```
