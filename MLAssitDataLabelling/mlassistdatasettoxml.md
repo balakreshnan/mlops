@@ -121,7 +121,7 @@ for index, row in objdf[['imgfile', 'label']].iterrows():
     #print(fullfname)
     mydata = ET.tostring(data)
     #print(mydata)
-    myfile = open(fullfname, "wb")
+    myfile = open(fullfname, "wb+")
     myfile.write(mydata)
 ```
 
