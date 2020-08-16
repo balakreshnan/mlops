@@ -2,11 +2,11 @@
 
 ## Hello World using fast ai in Azure ML jupyter lab using GPU compute
 
-## Pre-requistie
+## Pre-requisite
 
 - Azure Account
 - Create Azure Machine learning services
-- Create GPU compute - i choosed Standard NC6 with 4 nodes
+- Create GPU compute - I choose Standard NC6 with 4 nodes
 - Start the VM
 - Click Jupyter lab
 - I have tensorflow 2.0, pytorch, torchvision already installed
