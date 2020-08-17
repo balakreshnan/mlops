@@ -116,30 +116,58 @@ Based on the number of classes we need to create the images into 3 folders - tra
 ```
 import shutil, os
 directory = "./"
-train_folder = 'train/nostock'
-for filename in os.listdir(directory):
-    if filename.endswith(".jpg"):
-        if not os.path.exists(train_folder):
-            os.makedirs(train_folder)
-        shutil.copy(filename, train_folder)
+from pathlib import Path
 
-import shutil, os
-directory = "./"
-train_folder = 'valid/nostock'
-for filename in os.listdir(directory):
-    if filename.endswith(".jpg"):
-        if not os.path.exists(train_folder):
-            os.makedirs(train_folder)
-        shutil.copy(filename, train_folder)
+train_folder = 'train'
 
-import shutil, os
-directory = "./"
-train_folder = 'test/nostock'
-for filename in os.listdir(directory):
-    if filename.endswith(".jpg"):
-        if not os.path.exists(train_folder):
-            os.makedirs(train_folder)
-        shutil.copy(filename, train_folder)
+for filename1 in os.listdir(directory):
+    if filename1.endswith(".jpg"):
+        fname = filename.replace(".jpg","")
+        dfimg = objdf.loc[objdf['imgfile'] == fname]
+        #print(dfimg['imgfile'])
+        for index, row in dfimg[['imgfile', 'label']].iterrows():
+            for line in row['label']:
+                #print(line['label'], filename1)    
+                labelname = line['label']        
+                train_folder_label = os.path.join(train_folder, labelname)
+                if not os.path.exists(train_folder_label):
+                    os.makedirs(train_folder_label)
+                shutil.copy(filename1, train_folder_label)
+                print(train_folder_label, filename1)
+
+train_folder = 'valid'
+
+for filename1 in os.listdir(directory):
+    if filename1.endswith(".jpg"):
+        fname = filename.replace(".jpg","")
+        dfimg = objdf.loc[objdf['imgfile'] == fname]
+        #print(dfimg['imgfile'])
+        for index, row in dfimg[['imgfile', 'label']].iterrows():
+            for line in row['label']:
+                #print(line['label'], filename1)    
+                labelname = line['label']        
+                train_folder_label = os.path.join(train_folder, labelname)
+                if not os.path.exists(train_folder_label):
+                    os.makedirs(train_folder_label)
+                shutil.copy(filename1, train_folder_label)
+                print(train_folder_label, filename1)
+
+train_folder = 'test'
+
+for filename1 in os.listdir(directory):
+    if filename1.endswith(".jpg"):
+        fname = filename.replace(".jpg","")
+        dfimg = objdf.loc[objdf['imgfile'] == fname]
+        #print(dfimg['imgfile'])
+        for index, row in dfimg[['imgfile', 'label']].iterrows():
+            for line in row['label']:
+                #print(line['label'], filename1)    
+                labelname = line['label']        
+                train_folder_label = os.path.join(train_folder, labelname)
+                if not os.path.exists(train_folder_label):
+                    os.makedirs(train_folder_label)
+                shutil.copy(filename1, train_folder_label)
+                print(train_folder_label, filename1)
 ```
 
 ## Modelling
