@@ -12,6 +12,8 @@
 - train is main folder and i created class as another folder called nostock
 - then place the images there
 - For annotation file place it under train folder it self
+- Azure ML service only these regions are suported: eastus, eastus2
+- i am testing only eastus2
 
 ```
 blobContainer
