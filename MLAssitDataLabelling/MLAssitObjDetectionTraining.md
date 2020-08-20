@@ -24,6 +24,16 @@ blobContainer
 
 - Above is am example how to store the file structure for object detection model training (create new model)
 
+## update azure ml sdk
+
+```
+pip install --upgrade azureml-sdk
+pip install --upgrade azureml-contrib-automl-dnn-vision
+print("SDK version:", azureml.core.VERSION)
+```
+
+- minimum version needed: SDK version: 1.12.0
+
 ## Build New model training code.
 
 - Import necessary libraries
@@ -106,13 +116,13 @@ if not found:
      # For a more detailed view of current AmlCompute status, use get_status().
 ```
 
-- Now time to setup the data set read images and annoation files
+- Now time to setup the data set read images and annoation files. Note dataset and containername should be same
 
 ```
 from azureml.core.datastore import Datastore
 
 account_key = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-ds = Datastore.register_azure_blob_container(ws, datastore_name='namefordatastore', container_name='containername', 
+ds = Datastore.register_azure_blob_container(ws, datastore_name='containername', container_name='containername', 
                                              account_name='storageaccountname', account_key=account_key,
                                              resource_group='resourcegroupname')
 ```
@@ -162,15 +172,15 @@ automl_settings = {
     "iterations": 1,
     "primary_metric": 'mean_average_precision',
     "featurization": 'off',
-    "enable_dnn": True
+    "enable_dnn": True,
+    "dataset_id": training_dataset.id
 }
-
 automl_config = AutoMLConfig(task = 'image-object-detection',
                              debug_log = 'automl_errors_1.log',
                              path = project_folder,
                              run_configuration=conda_run_config,
                              training_data = training_dataset,
-                             #label_column_name = "image_url",
+                             label_column_name = "label",
                              **automl_settings
                             )
 ```
