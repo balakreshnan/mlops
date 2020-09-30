@@ -2,7 +2,7 @@
 
 ## Machine learning using scikit regression using azure machine learning services
 
-## Pre requistie
+## prerequisites
 
 - Azure Account
 - Create a resource group
