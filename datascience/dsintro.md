@@ -1,28 +1,37 @@
 # Data Science Intro
 
-## Machine learning using scikit regression using azure machine learning services
+## Machine learning using scikit regression using Azure Machine Learning services
+In this intro, you will learn how to: 
+- Load a dataset and do some basic data wrangling
+- Build and run a linear regression model
+- Write to Azure SQL Database from the notebook
+- Access the Azure SQL Database in Power BI to create visualizations
 
-## prerequisites
+## Prerequisites
 
 - Azure Account
 - Create a resource group
-- Create Azure machine learning resource
-- Create a compute instance
-- install mssql odbc drivers for python
+- Create Azure Machine Learning resource
+- Create a compute instance in Azure Machine Learning
 - Create Azure sql database 
 - Create sample tables
-- Visualize with Power BI
 
-## install mssql odbc drivers for python
+## Install mssql odbc drivers for python
 
-- Follow this link - https://docs.microsoft.com/en-us/sql/connect/odbc/linux-mac/installing-the-microsoft-odbc-driver-for-sql-server?view=sql-server-ver15#ubuntu17
-- Open Jupyter lab in compute instance and then open new terminal
-- copy line by line and then run in the terminal window
+- The code you will run below is based on this link - https://docs.microsoft.com/en-us/sql/connect/odbc/linux-mac/installing-the-microsoft-odbc-driver-for-sql-server?view=sql-server-ver15#ubuntu17
+- Open Jupyter lab in your compute instance and then open new terminal
+- In the terminal, determine your OS version by running: 
+```
+cat /etc/lsb-release
+```
+- Copy each block separately and then run in the terminal window
 
 ```
 sudo su
 curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
+```
 
+```
 #Download appropriate package for the OS version
 #Choose only ONE of the following, corresponding to your OS version
 
@@ -34,15 +43,30 @@ curl https://packages.microsoft.com/config/ubuntu/18.04/prod.list > /etc/apt/sou
 
 #Ubuntu 20.04
 curl https://packages.microsoft.com/config/ubuntu/20.04/prod.list > /etc/apt/sources.list.d/mssql-release.list
-
+```
+```
 exit
+````
+```
 sudo apt-get update
+```
+```
 sudo ACCEPT_EULA=Y apt-get install msodbcsql17
+```
+```
 # optional: for bcp and sqlcmd
 sudo ACCEPT_EULA=Y apt-get install mssql-tools
+```
+```
 echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bash_profile
+```
+```
 echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bashrc
+```
+```
 source ~/.bashrc
+```
+```
 # optional: for unixODBC development headers
 sudo apt-get install unixodbc-dev
 ```
@@ -63,7 +87,7 @@ nyc_tlc = NycTlcYellow(start_date=start_date, end_date=end_date)
 nyc_tlc_df = nyc_tlc.to_pandas_dataframe()
 ```
 
-- Lets make sure there are data available
+- Let's make sure there are data available
 
 ```
 display(nyc_tlc_df.head(5))
@@ -75,7 +99,7 @@ display(nyc_tlc_df.head(5))
 nyc_tlc_df.columns
 ```
 
-- Based on the data set lets do some group by
+- Based on the data set let's do some group by
 
 ```
 from pandas import *
@@ -94,7 +118,7 @@ nyc_tlc_df.describe()
 nyc_tlc_df.shape
 ```
 
-- display memory
+- Display memory
 
 ```
 nyc_tlc_df.memory_usage()
@@ -128,10 +152,10 @@ grouped_multiple = grouped_multiple.reset_index()
 print(grouped_multiple)
 ```
 
-- grouped_mulitpl is the data set we are going to use for machine learning
-- i am choosing linear regression to show how to predict future
-- by no means this is a production ready nor great model
-- intent here is show the process and commands
+- Grouped_mulitple is the data set we are going to use for machine learning
+- I am choosing linear regression to show how to predict future
+- By no means this is a production ready nor great model
+- Intent here is show the process and commands
 - Let's import the necessay libraries for modelling and plotting
 
 ```
@@ -146,7 +170,7 @@ import matplotlib.pyplot as plt
 %matplotlib inline
 ```
 
-- now lets plot few charts to analyze the data
+- Now lets plot few charts to analyze the data
 
 ```
 fig, ax = plt.subplots(figsize=(15,7))
@@ -288,8 +312,12 @@ coeff_df
 - now lets access Azure SQL database from notebook to test and visualize
 - below code is a sample
 - please make sure proper names are replaced for your Azure SQL database resource.
-- Idea here is soemtime it might be easy to write to Azure SQL and then use Power BI to visualize
-- Power BI visualization is not part of this tuotorial.
+- Idea here is sometime it might be easy to write to Azure SQL and then use Power BI to visualize
+
+First, install the pyodbc module
+```
+!pip install pyodbc
+```
 
 ```
 import pyodbc
@@ -307,5 +335,16 @@ with pyodbc.connect('DRIVER='+driver+';SERVER='+server+';PORT=1433;DATABASE='+da
             print (str(row[0]) + " " + str(row[1]))
             row = cursor.fetchone()
 ```
+*Note: You may need to modify your server's firewall rules to execute the code above successfully  
+
+## Connect to Power BI
+- To begin building data vizualizations, open the desktop version of Power BI
+- Click **Get Data**
+- Under "Azure," select Azure SQL Database
+- Enter the server name which should be in the format `servername.database.windows.net`
+- For this example, we will use the Import mode, but DirectQuery is also available for large volumes of data
+- On the next screen, enter your username and password for the database
+- Modify the data using the Power Query Editor, and once completed load the data
+- Build your visualizations
 
 - Have fun
