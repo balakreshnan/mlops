@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Copy_zlb",
+				"name": "Copy_cocoval",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
@@ -25,6 +25,12 @@
 						"storeSettings": {
 							"type": "HttpReadSettings",
 							"requestMethod": "GET"
+						},
+						"formatSettings": {
+							"type": "BinaryReadSettings",
+							"compressionProperties": {
+								"type": "ZipDeflateReadSettings"
+							}
 						}
 					},
 					"sink": {
