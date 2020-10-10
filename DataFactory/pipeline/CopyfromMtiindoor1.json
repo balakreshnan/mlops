@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Copy_kkq",
+				"name": "Copy_fromVijai",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
