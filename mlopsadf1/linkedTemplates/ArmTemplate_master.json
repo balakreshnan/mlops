@@ -169,6 +169,26 @@
 			"dependsOn": [
 				"[resourceId('Microsoft.Resources/deployments', 'mlopsadf1_ArmTemplate_0')]"
 			]
+		},
+		{
+			"name": "mlopsadf1_ArmTemplate_2",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_2.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'mlopsadf1_ArmTemplate_1')]"
+			]
 		}
 	]
 }
