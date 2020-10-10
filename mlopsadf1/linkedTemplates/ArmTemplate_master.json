@@ -27,6 +27,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'milwaukeetoolsdata'"
 		},
+		"mlopssa_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'mlopssa'"
+		},
 		"mltoolsinput_accountKey": {
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'mltoolsinput'"
@@ -39,6 +43,10 @@
 			"type": "string",
 			"defaultValue": "https://mlopssa.dfs.core.windows.net"
 		},
+		"cocozipurl_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "http://images.cocodataset.org/zips/train2017.zip"
+		},
 		"excelonoutput_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://mlopssa.dfs.core.windows.net"
@@ -46,6 +54,10 @@
 		"milwaukeetoolsdata_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://milwaukeetoolsdata.dfs.core.windows.net"
+		},
+		"mlopssa_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://mlopssa.dfs.core.windows.net"
 		},
 		"mltoolsinput_properties_typeProperties_url": {
 			"type": "string",
@@ -97,6 +109,9 @@
 					"milwaukeetoolsdata_accountKey": {
 						"value": "[parameters('milwaukeetoolsdata_accountKey')]"
 					},
+					"mlopssa_accountKey": {
+						"value": "[parameters('mlopssa_accountKey')]"
+					},
 					"mltoolsinput_accountKey": {
 						"value": "[parameters('mltoolsinput_accountKey')]"
 					},
@@ -106,11 +121,17 @@
 					"AzureDataLakeStorage1_properties_typeProperties_url": {
 						"value": "[parameters('AzureDataLakeStorage1_properties_typeProperties_url')]"
 					},
+					"cocozipurl_properties_typeProperties_url": {
+						"value": "[parameters('cocozipurl_properties_typeProperties_url')]"
+					},
 					"excelonoutput_properties_typeProperties_url": {
 						"value": "[parameters('excelonoutput_properties_typeProperties_url')]"
 					},
 					"milwaukeetoolsdata_properties_typeProperties_url": {
 						"value": "[parameters('milwaukeetoolsdata_properties_typeProperties_url')]"
+					},
+					"mlopssa_properties_typeProperties_url": {
+						"value": "[parameters('mlopssa_properties_typeProperties_url')]"
 					},
 					"mltoolsinput_properties_typeProperties_url": {
 						"value": "[parameters('mltoolsinput_properties_typeProperties_url')]"

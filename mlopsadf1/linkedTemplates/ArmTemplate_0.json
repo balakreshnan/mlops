@@ -27,6 +27,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'milwaukeetoolsdata'"
 		},
+		"mlopssa_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'mlopssa'"
+		},
 		"mltoolsinput_accountKey": {
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'mltoolsinput'"
@@ -39,6 +43,10 @@
 			"type": "string",
 			"defaultValue": "https://mlopssa.dfs.core.windows.net"
 		},
+		"cocozipurl_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "http://images.cocodataset.org/zips/train2017.zip"
+		},
 		"excelonoutput_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://mlopssa.dfs.core.windows.net"
@@ -46,6 +54,10 @@
 		"milwaukeetoolsdata_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://milwaukeetoolsdata.dfs.core.windows.net"
+		},
+		"mlopssa_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://mlopssa.dfs.core.windows.net"
 		},
 		"mltoolsinput_properties_typeProperties_url": {
 			"type": "string",
@@ -73,6 +85,21 @@
 						"type": "SecureString",
 						"value": "[parameters('AzureDataLakeStorage1_accountKey')]"
 					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/cocozipurl')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "HttpServer",
+				"typeProperties": {
+					"url": "[parameters('cocozipurl_properties_typeProperties_url')]",
+					"enableServerCertificateValidation": false,
+					"authenticationType": "Anonymous"
 				}
 			},
 			"dependsOn": []
@@ -138,6 +165,23 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/mlopssa')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobFS",
+				"typeProperties": {
+					"url": "[parameters('mlopssa_properties_typeProperties_url')]",
+					"accountKey": {
+						"type": "SecureString",
+						"value": "[parameters('mlopssa_accountKey')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/mltoolsinput')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -170,6 +214,93 @@
 				}
 			},
 			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DestinationDataset_al9')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "mlopssa",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Binary",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileSystem": "mitindoor1"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/mlopssa')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DestinationDataset_k7w')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "mlopssa",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Binary",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileSystem": "cocozip"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/mlopssa')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SourceDataset_al9')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "mlopssa",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Binary",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileSystem": "mitindoor1"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/mlopssa')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SourceDataset_k7w')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "cocozipurl",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Binary",
+				"typeProperties": {
+					"location": {
+						"type": "HttpServerLocation"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/cocozipurl')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/excelonouput1')]",
@@ -283,138 +414,6 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/oosoutput')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureDataLakeStorage1",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "Binary",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"fileSystem": "scorestoreimages"
-					}
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorage1')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/outputexcelon')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "excelonoutput",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "Binary",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"fileSystem": "excelon"
-					}
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/excelonoutput')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/rdimagesmlops')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureDataLakeStorage1",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "Binary",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"fileSystem": "rdmilwaukeetools"
-					}
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorage1')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/rdtoolsimages')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "milwaukeetoolsdata",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "Binary",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"fileSystem": "imagetag"
-					}
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/milwaukeetoolsdata')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/vijaioosoutput')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "vijaiblobstore",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "Binary",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"fileSystem": "storeimages"
-					}
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/vijaiblobstore')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/vijaioosscoreimages')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "vijaiblobstore",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "Binary",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"fileSystem": "scorestoreimages"
-					}
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/vijaiblobstore')]"
-			]
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/oosjsonputput')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -438,65 +437,25 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/cp1000images')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
+			"name": "[concat(parameters('factoryName'), '/oosoutput')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
-				"activities": [
-					{
-						"name": "Copy images",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "BinarySource",
-								"storeSettings": {
-									"type": "AzureBlobStorageReadSettings",
-									"recursive": true
-								}
-							},
-							"sink": {
-								"type": "BinarySink",
-								"storeSettings": {
-									"type": "AzureBlobFSWriteSettings"
-								}
-							},
-							"enableStaging": false,
-							"parallelCopies": 1,
-							"skipErrorFile": {
-								"fileMissing": true
-							},
-							"validateDataConsistency": false
-						},
-						"inputs": [
-							{
-								"referenceName": "excleonimages",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "excelonouput1",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
+				"linkedServiceName": {
+					"referenceName": "AzureDataLakeStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Binary",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileSystem": "scorestoreimages"
 					}
-				],
-				"annotations": []
+				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/excleonimages')]",
-				"[concat(variables('factoryId'), '/datasets/excelonouput1')]"
+				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorage1')]"
 			]
 		}
 	]
