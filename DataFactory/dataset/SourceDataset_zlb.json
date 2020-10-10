@@ -1,0 +1,19 @@
+{
+	"name": "SourceDataset_zlb",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "cocovalimages",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Binary",
+		"typeProperties": {
+			"location": {
+				"type": "HttpServerLocation"
+			},
+			"compression": {
+				"type": "ZipDeflate"
+			}
+		}
+	}
+}
