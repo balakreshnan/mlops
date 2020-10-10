@@ -43,6 +43,10 @@
 			"type": "string",
 			"defaultValue": "https://mlopssa.dfs.core.windows.net"
 		},
+		"cocovalimages_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "http://images.cocodataset.org/zips/val2017.zip"
+		},
 		"cocozipurl_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "http://images.cocodataset.org/zips/train2017.zip"
@@ -120,6 +124,9 @@
 					},
 					"AzureDataLakeStorage1_properties_typeProperties_url": {
 						"value": "[parameters('AzureDataLakeStorage1_properties_typeProperties_url')]"
+					},
+					"cocovalimages_properties_typeProperties_url": {
+						"value": "[parameters('cocovalimages_properties_typeProperties_url')]"
 					},
 					"cocozipurl_properties_typeProperties_url": {
 						"value": "[parameters('cocozipurl_properties_typeProperties_url')]"

@@ -32,6 +32,9 @@
 		"AzureDataLakeStorage1_properties_typeProperties_url": {
 			"value": "https://mlopssa.dfs.core.windows.net"
 		},
+		"cocovalimages_properties_typeProperties_url": {
+			"value": "http://images.cocodataset.org/zips/val2017.zip"
+		},
 		"cocozipurl_properties_typeProperties_url": {
 			"value": "http://images.cocodataset.org/zips/train2017.zip"
 		},
