@@ -2,7 +2,7 @@
 
 ## Create a hello world for OpenAI GPT-2 model
 
-## PreRequistie
+## Prerequisite
 
 - Create a Azure Machine learning Service
 - Go to Compute and create a compute instance
