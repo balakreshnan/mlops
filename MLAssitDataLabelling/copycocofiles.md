@@ -36,4 +36,9 @@ So our goal is to use Azure Data Factory to copy the zip and deflate the images 
 - Now Save and publish the pipeline
 - Click Trigger now
 - Go to Monitor and wait until it completes
+
+![alt text](https://github.com/balakreshnan/mlops/blob/master/images/cococp4.jpg "mlops deploy")
+
 - Should copy 5000 images
+
+![alt text](https://github.com/balakreshnan/mlops/blob/master/images/cococp5.jpg "mlops deploy")
