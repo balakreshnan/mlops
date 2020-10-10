@@ -1,0 +1,12 @@
+{
+	"name": "cocovalimages",
+	"properties": {
+		"annotations": [],
+		"type": "HttpServer",
+		"typeProperties": {
+			"url": "http://images.cocodataset.org/zips/val2017.zip",
+			"enableServerCertificateValidation": false,
+			"authenticationType": "Anonymous"
+		}
+	}
+}
