@@ -10,6 +10,9 @@
 		"typeProperties": {
 			"location": {
 				"type": "HttpServerLocation"
+			},
+			"compression": {
+				"type": "ZipDeflate"
 			}
 		}
 	}
