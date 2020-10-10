@@ -1,0 +1,17 @@
+{
+	"name": "SourceDataset_al9",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "mlopssa",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Binary",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileSystem": "mitindoor1"
+			}
+		}
+	}
+}
