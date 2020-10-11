@@ -23,7 +23,7 @@ https://github.com/balakreshnan/mlops/blob/master/MLAssitDataLabelling/copycocof
 
 ## Process Flow
 
-![alt text](https://github.com/balakreshnan/mlops/blob/master/images/cocoflow1.jpg "mlops deploy")
+![alt text](https://github.com/balakreshnan/mlops/blob/master/images/cocoflow1-1.jpg "mlops deploy")
 
 ## Architecture
 
