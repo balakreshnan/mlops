@@ -21,6 +21,14 @@ https://github.com/balakreshnan/mlops/blob/master/MLAssitDataLabelling/copycocof
 - i also tried 2017 train images 118K images took about 1 hour and 7 minutes
 - Validation 5K images took 3 minute and 6 seconds 03:06
 
+## Process Flow
+
+![alt text](https://github.com/balakreshnan/mlops/blob/master/images/cocoflow1.jpg "mlops deploy")
+
+## Architecture
+
+![alt text](https://github.com/balakreshnan/mlops/blob/master/images/cocoflow2.jpg "mlops deploy")
+
 ## Steps to create the labeling project
 
 - Create a new data label
