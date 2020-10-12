@@ -34,7 +34,7 @@ https://github.com/balakreshnan/mlops/blob/master/MLAssitDataLabelling/copycocof
 - Create a new data label
 - Create a project name coco2017 and then select object detection
 
-![alt text](https://github.com/balakreshnan/mlops/blob/master/images/cocoprj1.jpg "mlops deploy")
+![alt text](https://github.com/balakreshnan/mlops/blob/master/images/cocoprj1-1.jpg "mlops deploy")
 
 - Create a new Data set
 
