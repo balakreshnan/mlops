@@ -2,9 +2,9 @@
 
 ## Use Case
 
-Ability to predict recovery rate using Azure Automated Machine learning. Idea is increase productivity for data science to ability to figure out which alogrithmn produces the best result.
+Ability to predict recovery rate using Azure Automated Machine learning. Idea is increase productivity for data science to ability to figure out which algorithm produces the best result.
 
-Pre Requistie
+Pre Requisite
 
 - Azure Subscription
 - Create a Resource group
@@ -45,7 +45,7 @@ Pre Requistie
 ![alt text](https://github.com/balakreshnan/mlops/blob/master/images/covidautoml7.jpg "Auto ML")
 
 - Configuration helps to configure the model run and validation and exit criteria
-- Featuration for calcualte the impact of features
+- Featurization for calculate the impact of features
 - Now click Finish
 - Usually it takes a long time to run this model with 8MB data set
 
@@ -63,9 +63,9 @@ Pre Requistie
 
 - As you can see list of model it ran and it's accuracy and time it took
 - The page only display few please feel free to click next to see other pages
-- Each alogrithmn run will have it's owm Run
+- Each algorithm run will have it's own Run
 - Click the Run to view the output/logs for that model
-- For the best model you should see View Explaination
+- For the best model you should see View Explanation
 - Click on View explanation
 - View the feature and it's impact
 
