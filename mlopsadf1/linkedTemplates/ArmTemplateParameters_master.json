@@ -20,6 +20,9 @@
 		"milwaukeetoolsdata_accountKey": {
 			"value": ""
 		},
+		"mlops_accountKey": {
+			"value": ""
+		},
 		"mlopssa_accountKey": {
 			"value": ""
 		},
@@ -43,6 +46,9 @@
 		},
 		"milwaukeetoolsdata_properties_typeProperties_url": {
 			"value": "https://milwaukeetoolsdata.dfs.core.windows.net"
+		},
+		"mlops_properties_typeProperties_url": {
+			"value": "https://mlopssa.dfs.core.windows.net"
 		},
 		"mlopssa_properties_typeProperties_url": {
 			"value": "https://mlopssa.dfs.core.windows.net"
