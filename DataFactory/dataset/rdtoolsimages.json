@@ -2,7 +2,7 @@
 	"name": "rdtoolsimages",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "milwaukeetoolsdata",
+			"referenceName": "mlops",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],
@@ -10,7 +10,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"fileSystem": "imagetag"
+				"fileSystem": "milwaukeetoolsorg"
 			}
 		}
 	}
